@@ -5,13 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import online.shop.domain.item.Book;
 import online.shop.dto.BookForm;
 import online.shop.service.ItemService;
+import online.shop.web.validation.ItemValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,6 +28,12 @@ import java.util.Map;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemValidator itemValidator;
+
+//    @InitBinder
+//    public void init(WebDataBinder webDataBinder){
+//        webDataBinder.addValidators(itemValidator);
+//    }
 
     @GetMapping("items/new")
     public String createForm(Model model){
@@ -31,22 +41,10 @@ public class ItemController {
         return "item-form";
     }
     @PostMapping("items/new")
-    public String create(@ModelAttribute BookForm bookForm, BindingResult bindingResult, Model model){
-        if (!StringUtils.hasText(bookForm.getName())) {
-            bindingResult.rejectValue("name","required");
-        }
-        if (bookForm.getPrice() == null || bookForm.getPrice() < 1000 || bookForm.getPrice() > 1000000) {
-            bindingResult.rejectValue("price","range", new Object[]{1000,1000000},null);
-        }
-        if (bookForm.getStockQuantity() == null || bookForm.getStockQuantity() >= 9999) {
-            bindingResult.rejectValue("stockQuantity","max", new Object[]{9999}, null);
-        }
-        if (bookForm.getPrice() != null && bookForm.getStockQuantity() != null) {
-            int resultPrice = bookForm.getPrice() * bookForm.getStockQuantity();
-            if (resultPrice < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
-            }
-        }
+    public String create(@Validated @ModelAttribute BookForm bookForm, BindingResult bindingResult, Model model){
+
+//        itemValidator.validate(bookForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
             log.info("errors = {} ", bindingResult);
             return "item-form2";
