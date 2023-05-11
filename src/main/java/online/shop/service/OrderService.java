@@ -1,7 +1,7 @@
 package online.shop.service;
 
 import online.shop.domain.*;
-import online.shop.domain.item.Item;
+import online.shop.domain.item.*;
 import online.shop.repository.ItemRepository;
 import online.shop.repository.MemberRepository;
 import online.shop.repository.OrderRepository;
@@ -48,19 +48,11 @@ public class OrderService {
         return order.getId();
     }
 
-    /**
-     * 주문 취소
-     */
     @Transactional
     public void cancelOrder(Long orderId) {
         //주문 엔티티 조회
         Order order = orderRepository.findOne(orderId);
         //주문 취소
         order.cancel();
-    }
-
-    //검색
-    public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAllByString(orderSearch);
     }
 }

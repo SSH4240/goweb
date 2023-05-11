@@ -1,4 +1,9 @@
+loggin:
+  level:
+    root: info
 spring:
+  messages:
+    basename: errors
   output:
     ansi:
       enabled: always

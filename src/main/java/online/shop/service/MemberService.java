@@ -3,6 +3,7 @@ package online.shop.service;
 import lombok.RequiredArgsConstructor;
 import online.shop.domain.Member;
 import online.shop.repository.MemberRepository;
+import online.shop.repository.SpringDataMemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,7 +16,7 @@ import java.util.List;
 @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-    private final MemberRepository memberRepository;
+    private final SpringDataMemberRepository memberRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Long join(Member member){
@@ -33,6 +34,6 @@ public class MemberService {
         return memberRepository.findAll();
     }
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 }
