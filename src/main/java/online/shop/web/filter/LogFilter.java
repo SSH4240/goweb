@@ -23,7 +23,7 @@ public class LogFilter implements Filter {
         String uuid = UUID.randomUUID().toString();
 
         try{
-            log.info("REQUEST[{}{}]", uuid, requestURI);
+            log.info("REQUEST[{}{}{}]", uuid, request.getDispatcherType(),requestURI);
             // 필터가 있으면 다음 필터가 계속해서 호출되고, 없으면 서블릿이 호출됨
             chain.doFilter(request,response);
         }catch (Exception e){

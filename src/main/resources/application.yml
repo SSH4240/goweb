@@ -2,6 +2,9 @@ loggin:
   level:
     root: info
 server:
+  error:
+    whitelabel:
+      enabled: false
   servlet:
     session:
       tracking-modes: cookie

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
     public Member login(String loginId, String password){
-        if (loginId.equals("login") && password.equals("pwd")) {
+        if (loginId.equals("qwe") && password.equals("1234")) {
             Member member = new Member();
             member.setName("kim");
             return member;
